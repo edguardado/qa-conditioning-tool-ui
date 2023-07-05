@@ -25,6 +25,20 @@ export class FormComponent {
   });
   }
 
+  updateClient(): void {
+    const host = '10.150.4.245';
+    const localhost = 'localhost';
+    this.apiHelper.get('http://'+localhost+':3000/update-client')
+  .then((data:any) => {
+    console.log('Response:', data);
+    this.displayResponse(data)
+  })
+  .catch((error) => {
+    this.displayResponse(error)
+    console.error('Error:', error);
+  });
+  }
+
   getResponseText(response: any): string {
     if (typeof response === 'object') {
       return JSON.stringify(response);
