@@ -25,6 +25,20 @@ export class FormComponent {
   });
   }
 
+  createInstanceStacks(): void {
+    const host = '10.150.4.245';
+    const localhost = 'localhost';
+    this.apiHelper.get('http://'+localhost+':3000/create-ldap-instance?env=stacks')
+  .then((data:any) => {
+    console.log('Response:', data);
+    this.displayResponse(data)
+  })
+  .catch((error) => {
+    this.displayResponse(error)
+    console.error('Error:', error);
+  });
+  }
+
   updateClient(): void {
     const host = '10.150.4.245';
     const localhost = 'localhost';
