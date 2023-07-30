@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiHelper } from '../../api-helper/ApiHelper';
-
+import {ProgressBarMode} from '@angular/material/progress-bar';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -8,27 +8,36 @@ import { ApiHelper } from '../../api-helper/ApiHelper';
 })
 export class FormComponent {
   @ViewChild('responseContainer', { static: true }) responseContainer!: ElementRef;
+  mode: ProgressBarMode = 'indeterminate'
+  constructor(private apiHelper: ApiHelper, ) { }
 
-  constructor(private apiHelper: ApiHelper) { }
-
+  showProgressBar = false;
   fetchData(): void {
+
     const host = '10.150.4.245';
     const localhost = 'localhost';
-    this.apiHelper.get('http://'+localhost+':3000/create-ldap-instance?env=stage')
+    this.showProgressBar=true;
+    this.apiHelper.get('http://'+host+':3000/create-ldap-instance?env=stage')
   .then((data:any) => {
     console.log('Response:', data);
+    this.showProgressBar=false;
     this.displayResponse(data)
   })
   .catch((error) => {
+    this.showProgressBar=false;
     this.displayResponse(error)
     console.error('Error:', error);
   });
   }
 
+  getProgressBar() {
+    return this.showProgressBar;
+  }
+
   createInstanceStacks(): void {
     const host = '10.150.4.245';
     const localhost = 'localhost';
-    this.apiHelper.get('http://'+localhost+':3000/create-ldap-instance?env=stacks')
+    this.apiHelper.get('http://'+host+':3000/create-ldap-instance?env=stacks')
   .then((data:any) => {
     console.log('Response:', data);
     this.displayResponse(data)
@@ -42,7 +51,7 @@ export class FormComponent {
   updateClient(): void {
     const host = '10.150.4.245';
     const localhost = 'localhost';
-    this.apiHelper.get('http://'+localhost+':3000/update-client')
+    this.apiHelper.get('http://'+host+':3000/update-client')
   .then((data:any) => {
     console.log('Response:', data);
     this.displayResponse(data)
